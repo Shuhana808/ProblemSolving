@@ -12,7 +12,7 @@ def get_articulation_points(graph, node, parent,  depth, visited,  lowpoint):
     ret = []
     for child in graph[node]:
         if visited[node]:
-            ret = get_articulation_points(graph, child, node,depth, visited, lowpoint)
+            ret = get_articulation_points(graph, child, node, depth, visited, lowpoint)
             child_count += 1
             if lowpoint[child] >= depth[node]:
                 isArticulation = True
@@ -63,4 +63,4 @@ if __name__ == '__main__':
                 if len(sub) == 0:
                     res
 
-        print(ret)
+        print(res)
