@@ -38,6 +38,108 @@ We can use a simple sliding window approach to solve this problem.
 We keep expanding the window by moving the right pointer and stores the characters those are present in `t` in the deque. 
 When the window has all the desired characters, we contract (if possible) and save the smallest window till now.
 
-Time Complexity: O(|S| + |T|)O(∣S∣+∣T∣) 
+Time Complexity: O(|S| + |T|)
 
-Space Complexity: O(|S| + |T|)O(∣S∣+∣T∣)
+Space Complexity: O(|S| + |T|)
+
+45. Jump Game II
+
+Problem:
+Given an array of non-negative integers nums, you are initially positioned at the first index of the array.
+Each element in the array represents your maximum jump length at that position.
+Your goal is to reach the last index in the minimum number of jumps.
+You can assume that you can always reach the last index.
+
+
+The main idea is based on greedy. Let's say the range of the current jump is `[curBegin, curEnd]`, 
+curFarthest is the farthest point that all points in `[curBegin, curEnd]` can reach. 
+Once the current point reaches curEnd, then trigger another jump, and set the new curEnd with curFarthest, 
+then keep the above steps.
+
+Time Complexity: O(N)
+
+
+**2135. Count Words Obtained After Adding a Letter**
+
+Problem:
+You are given two 0-indexed arrays of strings startWords and targetWords. Each string consists of lowercase English letters only.
+
+For each string in targetWords, check if it is possible to choose a string from startWords and perform a conversion operation on it to be equal to that from targetWords.
+
+The conversion operation is described in the following two steps:
+
+Append any lowercase letter that is not present in the string to its end.
+For example, if the string is "abc", the letters 'd', 'e', or 'y' can be added to it, but not 'a'. If 'd' is added, the resulting string will be "abcd".
+Rearrange the letters of the new string in any arbitrary order.
+For example, "abcd" can be rearranged to "acbd", "bacd", "cbda", and so on. Note that it can also be rearranged to "abcd" itself.
+Return the number of strings in targetWords that can be obtained by performing the operations on any string of startWords.
+
+Note that you will only be verifying if the string in targetWords can be obtained from a string in startWords by performing the operations. The strings in startWords do not actually change during this process.
+
+
+
+Solution:
+
+Idea here is calculate bitmask of each word of startWords and store them in a unordered_set / hashset for that.
+Doing this we can take care of Rearrage operation (if any) as given in question.
+
+Now, we iterate over each targetWords. Again for this first we need to calculate bitmask to take care of rearrangement.
+
+For each word we skip one character say and then check if that resultant word is present in our startSet or not.
+If not, then we skip next character and again check
+If yes, then we increment count and break.
+Since we have found a startWord in set ,
+which can be converted to current targetWord.
+
+Time Complexity: O(Mn) + O(Nn)
+M = # of startWords
+m = Avg length of startWords
+N = # of targetWords
+m = Avg length of targetWords
+
+
+
+
+**91. Decode Ways**
+
+A message containing letters from A-Z can be encoded into numbers using the following mapping:
+
+'A' -> "1"
+'B' -> "2"
+...
+'Z' -> "26"
+To decode an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above (there may be multiple ways). For example, "11106" can be mapped into:
+
+"AAJF" with the grouping (1 1 10 6)
+"KJF" with the grouping (11 10 6)
+Note that the grouping (1 11 06) is invalid because "06" cannot be mapped into 'F' since "6" is different from "06".
+
+Given a string s containing only digits, return the number of ways to decode it.
+
+The test cases are generated so that the answer fits in a 32-bit integer.
+
+Example 1:
+
+Input: s = "12"
+Output: 2
+Explanation: "12" could be decoded as "AB" (1 2) or "L" (12).
+Example 2:
+
+Input: s = "226"
+Output: 3
+Explanation: "226" could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
+Example 3:
+
+Input: s = "06"
+Output: 0
+Explanation: "06" cannot be mapped to "F" because of the leading zero ("6" is different from "06").
+
+
+
+Solution:
+For a character s[i], we have 2 ways to decode:
+Single digit: Require s[i] != '0' (decoded to 1..9)
+Two digits: Require i + 1 < len(s) and (s[i] == 1 (decoded to 10..19) or s[i] == 2 and s[i+1] <= '6') (decoded to 20..26).
+
+Time Complexity: O(N)
+Space Complexity: O(N)
