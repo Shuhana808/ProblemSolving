@@ -143,3 +143,36 @@ Two digits: Require i + 1 < len(s) and (s[i] == 1 (decoded to 10..19) or s[i] ==
 
 Time Complexity: O(N)
 Space Complexity: O(N)
+
+
+**134. Gas Station**
+
+There are n gas stations along a circular route, where the amount of gas at the ith station is gas[i].
+
+You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from the ith station to its next (i + 1)th station. You begin the journey with an empty tank at one of the gas stations.
+
+Given two integer arrays gas and cost, return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1. If there exists a solution, it is guaranteed to be unique
+
+Example 1:
+
+Input: gas = [1,2,3,4,5], cost = [3,4,5,1,2]
+Output: 3
+
+Example 2:
+
+Input: gas = [2,3,4], cost = [3,4,3]
+Output: -1
+
+**Solution**
+
+Start the trip from beginning and continue until the car runs out of gas
+to go to the next station. Then, start the trip again at the next station.
+
+
+We are skipping all the other stations between the beginning and 
+the last station we reached because if `ith` station is the first one we cannot reach 
+from the starting point or `0th` station, then we cannot also reach `ith` station starting from any
+station between the `0th` to `(i-1)th` station. We will be at some kind of deficit comparing our 
+fuel accumulation to our fuel consumption. So, this means we can start trying 
+at the `ith` station. So, hopefully now you understand how this O(N) solution will takes place.
+
