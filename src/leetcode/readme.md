@@ -1,3 +1,102 @@
+##### 11. Container With Most Water
+
+**Problem:**
+
+You are given an integer array height of length n. 
+There are n vertical lines drawn such that the two endpoints of 
+the ith line are `(i, 0)` and `(i, height[i])`.
+
+Find two lines that together with the x-axis form a container, 
+such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+
+**Solution:**
+
+The intuition is that the area formed between the lines will 
+always be limited by the height of the shorter line. 
+Further, the farther the lines, the more will be the area obtained.
+
+We take two pointers, one at the beginning and one at the end of 
+the array constituting the length of the lines. Futher, we maintain 
+a variable `maxarea` to store the maximum area obtained 
+till now. At every step, we find out the area formed between them, 
+update `maxarea` and move the pointer pointing to the shorter line towards the other end by one step.
+
+Time complexity: O(n)
+
+Space complexity: O(1)
+
+##### 91. Decode Ways
+
+**Problem:**
+
+A message containing letters from A-Z can be encoded into numbers using the following mapping:
+
+'A' -> "1"
+'B' -> "2"
+...
+'Z' -> "26"
+
+
+To decode an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above (there may be multiple ways). For example, "11106" can be mapped into:
+
+"AAJF" with the grouping (1 1 10 6)
+"KJF" with the grouping (11 10 6)
+Note that the grouping (1 11 06) is invalid because "06" cannot be mapped into 'F' since "6" is different from "06".
+
+Given a string s containing only digits, return the number of ways to decode it.
+
+**Solution:**
+Let dp[ i ] = the number of ways to parse the string s[0: i-1]
+    dp[0] = 1
+    dp[i] = dp[i-1] consider s[i-1] represents a char 
+    dp[i] += dp[i-2] consider s[i-2:i-1] can be grouped to
+                     represent a char
+
+Time complexity: O(n)
+
+Space complexity: O(n), can be reduced to o(1) if just 
+last two dp values are stored
+
+
+##### 802. Find Eventual Safe States
+
+
+**Problem:**
+There is a directed graph of n nodes with each node labeled from 0 to n - 1. 
+The graph is represented by a 0-indexed 2D integer array graph where graph[i] is 
+an integer array of nodes adjacent to node i, meaning there is an edge from node i to each node in graph[i].
+
+A node is a terminal node if there are no outgoing edges. A node is a safe node if every possible path starting 
+from that node leads to a terminal node (or another safe node).
+
+Return an array containing all the safe nodes of the graph. The answer should be sorted in ascending order.
+
+
+
+**Solution:**
+
+Let, value of color represents three states:
+
+0:have not been visited
+
+1:unsafe
+
+2:safe
+
+For DFS, we need to do some optimization. When we travel a path,we 
+mark the node with 1 which represents having been visited,and when 
+we encounter a node which results in a cycle,we return false,all node 
+in the path stays 1 and it represents unsafe.And in the following traveling,
+whenever we encounter a node which points to a node marked with 1,we know 
+it will results in a cycle,so we can stop traveling.On the contrary,when a node
+is safe,we can mark it with 1 and whenever we encounter a safe node,we know it
+will not results in a cycle.
+
+
 **239. Sliding Window Maximum**
 
 
@@ -58,6 +157,24 @@ then keep the above steps.
 
 Time Complexity: O(N)
 
+**Another Approach:**
+We can iterate over all indices maintaining the furthest reachable position from current index - maxReachable and currently furthest reached position - lastJumpedPos. Everytime we will try to update lastJumpedPos to furthest possible reachable index - maxReachable.
+
+Updating the lastJumpedPos separately from maxReachable allows us to maintain track of minimum jumps required. Each time lastJumpedPos is updated, jumps will also be updated and store the minimum jumps required to reach lastJumpedPos (On the contrary, updating jumps with maxReachable won't give the optimal (minimum possible) value of jumps required).
+
+We will just return it as soon as lastJumpedPos reaches(or exceeds) last index.
+
+We can try to understand the steps in code below as analogous to those in BFS as -
+
+maxReachable = max(maxReachable, i + nums[i]) : Updating the range of next level. Similar to queue.push(node) step of BFS but here we are only greedily storing the max reachable index on next level.
+
+i == lastJumpedPos : When it becomes true, current level iteration has been completed.
+
+lastJumpedPos = maxReachable : Set range till which we need to iterate the next level
+
+jumps++ : Move on to the next level.
+
+return jumps : The final answer will be number of levels in BFS traversal.
 
 **2135. Count Words Obtained After Adding a Letter**
 
